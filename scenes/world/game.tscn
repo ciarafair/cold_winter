@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvw2d48tks75t"]
+
+[ext_resource type="Script" uid="uid://djssqcxycy8jv" path="res://resources/scripts/gameManager.gd" id="1_w44h4"]
+[ext_resource type="PackedScene" uid="uid://b2no5wr3yw66l" path="res://scenes/menu/pauseMenu.tscn" id="2_hqfqh"]
+
+[node name="GameManager" type="Node3D"]
+script = ExtResource("1_w44h4")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TestLabel" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="PauseMenu" parent="." instance=ExtResource("2_hqfqh")]
+visible = false
+top_level = true

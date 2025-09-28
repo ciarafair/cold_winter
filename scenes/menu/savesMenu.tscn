@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlqdlr6d2t6st"]
+
+[ext_resource type="Script" uid="uid://cd21d1y3euufr" path="res://resources/scripts/savesMenu.gd" id="1_rhl0m"]
+[ext_resource type="Script" uid="uid://d4dflywj783ry" path="res://resources/scripts/saveFileContainer.gd" id="2_aymn2"]
+[ext_resource type="Script" uid="uid://n71dmd4kkbuk" path="res://resources/scripts/saveFileButton.gd" id="2_vj6q7"]
+[ext_resource type="Script" uid="uid://dis7v45ylmowx" path="res://resources/scripts/deleteFileButton.gd" id="4_aymn2"]
+
+[sub_resource type="Theme" id="Theme_rhl0m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rfivi"]
+bg_color = Color(0.15487596, 0.154876, 0.15487587, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[node name="SavesMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rhl0m")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.28118682, 0.28118688, 0.28118682, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_rhl0m")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rfivi")
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.25
+text = "Select a save file."
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.25
+
+[node name="NewGameButton" type="Button" parent="VBoxContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="ButtonContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SampleFileContainer" type="CenterContainer" parent="VBoxContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.25
+script = ExtResource("2_aymn2")
+metadata/file_location = "user://save_file_0.json"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer"]
+layout_mode = 2
+
+[node name="SaveFileButton" type="Button" parent="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer/HBoxContainer"]
+layout_mode = 2
+text = "Save File"
+script = ExtResource("2_vj6q7")
+
+[node name="DeleteFileButton" type="Button" parent="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer/HBoxContainer"]
+layout_mode = 2
+text = " X "
+script = ExtResource("4_aymn2")
+
+[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer/VBoxContainer/CenterContainer3"]
+layout_mode = 2
+text = "Main Menu"
+
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/CenterContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer/HBoxContainer/SaveFileButton" to="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer/HBoxContainer/SaveFileButton" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer/HBoxContainer/DeleteFileButton" to="VBoxContainer/VBoxContainer/ButtonContainer/SampleFileContainer/HBoxContainer/DeleteFileButton" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/CenterContainer3/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

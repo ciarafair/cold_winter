@@ -1,0 +1,81 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2no5wr3yw66l"]
+
+[ext_resource type="Script" uid="uid://dtvg0uo7itk5w" path="res://resources/scripts/pauseMenu.gd" id="1_6gm5y"]
+
+[sub_resource type="Theme" id="Theme_yir2j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gm5y"]
+bg_color = Color(0.15487596, 0.154876, 0.15487587, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6gm5y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_yir2j")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6gm5y")
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.25
+text = "Pause Menu"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+alignment = 1
+
+[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.25
+
+[node name="SaveGameButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer3"]
+layout_mode = 2
+text = "Save Game"
+
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer2"]
+layout_mode = 2
+text = "Settings"
+
+[node name="CenterContainer4" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.25
+
+[node name="HomeMenuButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer4"]
+layout_mode = 2
+text = "Main Menu"
+
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer3/SaveGameButton" to="." method="_on_save_game_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer2/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer4/HomeMenuButton" to="." method="_on_home_menu_button_pressed"]

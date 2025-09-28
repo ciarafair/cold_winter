@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5314xkn4chyy"]
+
+[ext_resource type="Script" uid="uid://ydtv11vtddpg" path="res://resources/scripts/settingsMenu.gd" id="1_chalc"]
+
+[sub_resource type="Theme" id="Theme_od678"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chalc"]
+bg_color = Color(0.15487596, 0.154876, 0.15487587, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_chalc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_od678")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chalc")
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.25
+text = "Settings"
+
+[node name="CenterContainer4" type="CenterContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.25
+
+[node name="Panel" type="Panel" parent="VBoxContainer/CenterContainer4"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chalc")
+
+[node name="HomeMenuButton" type="Button" parent="VBoxContainer/CenterContainer4/Panel"]
+layout_mode = 0
+offset_left = -48.0
+offset_top = -15.0
+offset_right = 48.0
+offset_bottom = 16.0
+text = "Main menu"
+
+[connection signal="pressed" from="VBoxContainer/CenterContainer4/Panel/HomeMenuButton" to="." method="_on_home_menu_button_pressed"]
