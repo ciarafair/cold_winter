@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5314xkn4chyy"]
+[gd_scene load_steps=6 format=3 uid="uid://b5314xkn4chyy"]
 
 [ext_resource type="Script" uid="uid://ydtv11vtddpg" path="res://resources/scripts/settingsMenu.gd" id="1_chalc"]
+[ext_resource type="Script" uid="uid://bquboqfisi0x3" path="res://resources/scripts/settingContainer.gd" id="2_1npoy"]
+[ext_resource type="Script" uid="uid://doj7ipylxit7r" path="res://resources/scripts/settingsBackButton.gd" id="3_b6ft8"]
 
 [sub_resource type="Theme" id="Theme_od678"]
 
@@ -20,6 +22,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_chalc")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.11372549)
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -28,7 +39,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
@@ -45,21 +56,78 @@ size_flags_vertical = 6
 size_flags_stretch_ratio = 0.25
 text = "Settings"
 
-[node name="CenterContainer4" type="CenterContainer" parent="VBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
-size_flags_stretch_ratio = 0.25
+alignment = 1
 
-[node name="Panel" type="Panel" parent="VBoxContainer/CenterContainer4"]
+[node name="SettingsContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_chalc")
 
-[node name="HomeMenuButton" type="Button" parent="VBoxContainer/CenterContainer4/Panel"]
-layout_mode = 0
-offset_left = -48.0
-offset_top = -15.0
-offset_right = 48.0
-offset_bottom = 16.0
+[node name="SampleCheckContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/SettingsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 750
+theme_override_constants/margin_right = 750
+script = ExtResource("2_1npoy")
+metadata/setting_type = "Checkbox"
+metadata/setting_name = "SampleCheckbox"
+metadata/display = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/SettingsContainer/SampleCheckContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/SettingsContainer/SampleCheckContainer/HBoxContainer"]
+layout_mode = 2
+text = "Setting Name:"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/VBoxContainer2/SettingsContainer/SampleCheckContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="SampleSliderContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer2/SettingsContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 750
+theme_override_constants/margin_right = 750
+script = ExtResource("2_1npoy")
+metadata/setting_type = "Slider"
+metadata/setting_name = "SampleSlider"
+metadata/display = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer2/SettingsContainer/SampleSliderContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer2/SettingsContainer/SampleSliderContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Setting Name:"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/VBoxContainer2/SettingsContainer/SampleSliderContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="SaveChangesButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer3"]
+layout_mode = 2
+text = "Save Changes"
+
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="BackButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer2"]
+layout_mode = 2
 text = "Main menu"
+script = ExtResource("3_b6ft8")
 
-[connection signal="pressed" from="VBoxContainer/CenterContainer4/Panel/HomeMenuButton" to="." method="_on_home_menu_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/SettingsContainer/SampleCheckContainer/HBoxContainer/CheckBox" to="VBoxContainer/VBoxContainer2/SettingsContainer/SampleCheckContainer" method="_on_check_box_pressed"]
+[connection signal="value_changed" from="VBoxContainer/VBoxContainer2/SettingsContainer/SampleSliderContainer/HBoxContainer/HSlider" to="VBoxContainer/VBoxContainer2/SettingsContainer/SampleSliderContainer" method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer3/SaveChangesButton" to="." method="_on_save_changes_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer2/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer2/BackButton" to="VBoxContainer/VBoxContainer2/CenterContainer2/BackButton" method="_on_pressed"]

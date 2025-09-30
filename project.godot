@@ -18,9 +18,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-FileManager="*res://resources/scripts/fileManager.gd"
 SignalManager="*res://resources/scripts/signalManager.gd"
 SettingsManager="*res://resources/scripts/settingsManager.gd"
+SaveManager="*res://resources/scripts/saveManager.gd"
 
 [debug]
 

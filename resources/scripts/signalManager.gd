@@ -10,6 +10,7 @@ signal newFileSignal()
 signal selectSaveSignal()
 signal quitGameSignal(value: bool)
 signal homeMenuSignal()
+signal pauseMenuSignal()
 
 func _ready() -> void:
 	SignalManager.onlineSignal.connect(notify_online)
@@ -20,15 +21,14 @@ func _ready() -> void:
 	return
 
 func notify_online(value: Node) -> void:
-	if SettingsManager.reportOnline == false:
-		return
 	var node_name: String = value.name
-	print_debug(node_name + " is online.")
+	if SettingsManager.settings_file_contents.reportOnline.value == true:
+		print_debug(node_name + " is online.")
 	return
 
 func free_instance(value: Node) -> void:
 	var node_name: String = value.name
-	if SettingsManager.reportOffline == true:
+	if SettingsManager.settings_file_contents.reportOffline.value  == true:
 		print_debug(node_name + " is being taken offline.")
 	value.queue_free()
 	return
