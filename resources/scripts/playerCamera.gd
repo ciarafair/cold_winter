@@ -1,5 +1,11 @@
 extends Node
 
+#TODO:
+# - Make function which allows players to have limited movement of view while at camera position
+# - Make camera positions capable of inception (A camera position inside a camera position)
+# - Create a dictionary of previous camera positions, make it so every time you go back on a position it removes it from the list, this should allow
+# for easierplayer movement.
+
 var game_manager: Node = null
 var camera_position: Node = null
 
