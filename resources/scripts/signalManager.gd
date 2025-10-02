@@ -11,6 +11,8 @@ signal selectSaveSignal()
 signal quitGameSignal(value: bool)
 signal homeMenuSignal()
 signal pauseMenuSignal()
+signal hoveringClickable()
+signal newCameraPosition()
 
 func _ready() -> void:
 	SignalManager.onlineSignal.connect(notify_online)

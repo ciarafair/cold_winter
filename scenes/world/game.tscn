@@ -1,23 +1,215 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvw2d48tks75t"]
+[gd_scene load_steps=19 format=3 uid="uid://dvw2d48tks75t"]
 
 [ext_resource type="Script" uid="uid://djssqcxycy8jv" path="res://resources/scripts/gameManager.gd" id="1_w44h4"]
+[ext_resource type="Script" uid="uid://6c3u6wwoukbn" path="res://resources/scripts/lastViewContainer.gd" id="2_2oj1e"]
 [ext_resource type="PackedScene" uid="uid://b2no5wr3yw66l" path="res://scenes/menu/pauseMenu.tscn" id="2_hqfqh"]
+[ext_resource type="Script" uid="uid://btasvp8bgsm3q" path="res://resources/scripts/devLabelClickable.gd" id="2_r5nxa"]
+[ext_resource type="Script" uid="uid://3tdmy7v2g046" path="res://resources/scripts/clickable.gd" id="3_3iwug"]
+[ext_resource type="Script" uid="uid://d2nll53ff5h2c" path="res://resources/scripts/devLabelCameraPosition.gd" id="3_h30v7"]
+[ext_resource type="Script" uid="uid://cdcu0muiuxeqj" path="res://resources/scripts/mainCameraPosition.gd" id="5_3gx7t"]
+[ext_resource type="Script" uid="uid://rianvuhf8r2p" path="res://resources/scripts/playerCamera.gd" id="5_sarsd"]
+
+[sub_resource type="Theme" id="Theme_ugwi3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wgl2g"]
+bg_color = Color(0.15487596, 0.154876, 0.15487587, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3gx7t"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hqfqh"]
+material = SubResource("StandardMaterial3D_3gx7t")
+size = Vector2(25, 25)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2oj1e"]
+size = Vector2(25, 25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ugwi3"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wgl2g"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2oj1e"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3iwug"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hqfqh"]
 
 [node name="GameManager" type="Node3D"]
 script = ExtResource("1_w44h4")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="LastViewContainer" type="Container" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme = SubResource("Theme_ugwi3")
+script = ExtResource("2_2oj1e")
+
+[node name="Control" type="Control" parent="LastViewContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LastViewContainer/Control"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 80.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wgl2g")
+
+[node name="Label" type="Label" parent="LastViewContainer/Control"]
+layout_mode = 0
+offset_left = 941.0
+offset_top = 28.0
+offset_right = 978.0
+offset_bottom = 51.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.25
+text = "Back"
+
+[node name="DevLabels" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+mouse_behavior_recursive = 1
 
-[node name="TestLabel" type="Label" parent="CenterContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="DevLabels"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DevLabels/MarginContainer"]
+layout_mode = 2
+
+[node name="TestLabel" type="Label" parent="DevLabels/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 1
 text = "0"
+
+[node name="ClickableLabelDevLabel" type="Label" parent="DevLabels/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Null"
+script = ExtResource("2_r5nxa")
+
+[node name="CameraPositionDevLabel" type="Label" parent="DevLabels/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Null"
+script = ExtResource("3_h30v7")
 
 [node name="PauseMenu" parent="." instance=ExtResource("2_hqfqh")]
 visible = false
 top_level = true
+
+[node name="GameWorld" type="Node" parent="."]
+
+[node name="MainCameraPosition" type="Node3D" parent="GameWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("5_3gx7t")
+
+[node name="Camera3D" type="Camera3D" parent="GameWorld"]
+script = ExtResource("5_sarsd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="GameWorld"]
+transform = Transform3D(1, 0, 0, 0, 0.82703155, 0.5621556, 0, -0.5621556, 0.82703155, 0, 13.909239, 22.585258)
+
+[node name="Room" type="Node3D" parent="GameWorld"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Room"]
+mesh = SubResource("PlaneMesh_hqfqh")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="GameWorld/Room"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 12.5, 12.5, 0)
+mesh = SubResource("PlaneMesh_2oj1e")
+surface_material_override/0 = SubResource("StandardMaterial3D_ugwi3")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="GameWorld/Room"]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 12.5, -12.5)
+mesh = SubResource("PlaneMesh_2oj1e")
+surface_material_override/0 = SubResource("StandardMaterial3D_wgl2g")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="GameWorld/Room"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -12.5, 12.5, 0)
+mesh = SubResource("PlaneMesh_2oj1e")
+surface_material_override/0 = SubResource("StandardMaterial3D_2oj1e")
+
+[node name="Box1" type="Node3D" parent="GameWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, -8)
+script = ExtResource("3_3iwug")
+metadata/is_camera_position = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1"]
+mesh = SubResource("BoxMesh_3iwug")
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box1/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1"]
+transform = Transform3D(0.6736757, -0.25220993, 0.69465905, 0, 0.93996423, 0.34127292, -0.7390271, -0.22990727, 0.6332311, 1.119854, 0.9112158, 1.0633163)
+
+[node name="Box2" type="Node3D" parent="GameWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8)
+script = ExtResource("3_3iwug")
+metadata/is_camera_position = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box2"]
+mesh = SubResource("BoxMesh_3iwug")
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box2/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box2"]
+transform = Transform3D(0.99999845, 0.0012667476, -0.0012252334, 0, 0.6952305, 0.7187868, 0.0017623414, -0.71878564, 0.6952294, -0.035943538, 1.2926083, 1.0294571)
+
+[node name="Box3" type="Node3D" parent="GameWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -8)
+script = ExtResource("3_3iwug")
+metadata/is_camera_position = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box3"]
+mesh = SubResource("BoxMesh_3iwug")
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box3/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box3"]
+transform = Transform3D(0.667812, 0.5549183, -0.49607727, 0, 0.66647494, 0.7455273, 0.74432987, -0.4978721, 0.44508, -1.7609558, 3.0353909, 1.5129223)
+
+[connection signal="gui_input" from="LastViewContainer" to="LastViewContainer" method="_on_gui_input"]
+[connection signal="mouse_entered" from="LastViewContainer" to="LastViewContainer" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="LastViewContainer" to="LastViewContainer" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box1/Area3D" to="GameWorld/Box1" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box1/Area3D" to="GameWorld/Box1" method="_on_area_3d_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box2/Area3D" to="GameWorld/Box2" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box2/Area3D" to="GameWorld/Box2" method="_on_area_3d_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box3/Area3D" to="GameWorld/Box3" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box3/Area3D" to="GameWorld/Box3" method="_on_area_3d_mouse_exited"]
