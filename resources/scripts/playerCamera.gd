@@ -2,9 +2,6 @@ extends Node
 
 #TODO:
 # - Make function which allows players to have limited movement of view while at camera position
-# - Make camera positions capable of inception (A camera position inside a camera position)
-# - Create a dictionary of previous camera positions, make it so every time you go back on a position it removes it from the list, this should allow
-# for easierplayer movement.
 
 var game_manager: Node = null
 var camera_position: Node = null
@@ -27,7 +24,7 @@ func find_game_manager():
 	if node == null:
 		push_error('Could not find the GameManager node for %s.' % parent.name)
 		return null
-	print_debug('Setting game_manager for PlayerCamera to %s.' % node.name)
+	#print_debug('Setting game_manager for PlayerCamera to %s.' % node.name)
 	return node
 
 func find_camera_position():
@@ -36,12 +33,13 @@ func find_camera_position():
 		push_error('Could not find camera position as the game manager is not accessible.')
 		find_game_manager()
 		return null
-	position = game_manager.current_camera_position
+	position = game_manager.camera_position_dictionary.current_camera_position
 	if position == null:
 		push_error('Could not find the current camera position from GameManager.')
 		return null
 	if position != camera_position:
-		print_debug('Setting camera position for PlayerCamera to %s.' % position.name)
+		#print_debug('Setting camera position for PlayerCamera to %s.' % position.name)
+		return position
 	return position
 
 func set_position():
@@ -59,9 +57,9 @@ func set_location() -> void:
 	var node: Node = self
 	if node.global_position == camera_position.global_position:
 		return
-	print_debug('Camera position: ' + str(node.global_position) + ' ' + 'Position location: ' + str(camera_position.global_position))
+	#print_debug('Camera position: ' + str(node.global_position) + ' ' + 'Position location: ' + str(camera_position.global_position))
 	node.global_position = camera_position.global_position
-	print_debug('Updated camera position: ' + str(node.global_position) + ' ' + 'Updated position location: ' + str(camera_position.global_position))
+	#print_debug('Updated camera position: ' + str(node.global_position) + ' ' + 'Updated position location: ' + str(camera_position.global_position))
 	return
 
 # This constantly produces output despite the camera being in the correct position, i'm not sure why.
@@ -70,6 +68,6 @@ func set_rotation() -> void:
 	if node.global_rotation == camera_position.global_rotation:
 		return
 	#print_debug('Camera rotation: ' + str(node.global_rotation) + ' ' + 'Position rotation: ' + str(camera_position.global_rotation))
-	node.global_rotation = camera_position.global_rotation
+	node.rotation_degrees = camera_position.rotation_degrees
 	#print_debug('Updated camera rotation: ' + str(node.global_rotation) + ' ' + 'Updated position rotation: ' + str(camera_position.global_rotation))
 	return

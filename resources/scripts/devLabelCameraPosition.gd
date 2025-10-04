@@ -21,7 +21,7 @@ func find_game_manager() -> void:
 	return
 
 func check_camera_position() -> void:
-	var node: Node = game_manager.current_camera_position
+	var node: Node = game_manager.camera_position_dictionary.current_camera_position
 	if node == null:
 		print_debug('Could not find current camera position for %s as node is null.' % self.name)
 		return

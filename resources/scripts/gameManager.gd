@@ -1,9 +1,11 @@
 extends Node
 
 var test_label: Label = null
-var main_camera_position: Node = null
-var current_camera_position: Node = null
 var is_paused: bool = false
+var camera_position_dictionary: Dictionary = {
+	"main_camera_position": null,
+	"current_camera_position": null
+}
 
 func _ready() -> void:
 	SignalManager.homeMenuSignal.connect(returnToHomeMenu)
@@ -14,7 +16,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	find_unique_names()
 	manage_input()
-
 	var label_text: String = ''
 	label_text = JSON.stringify(SaveManager.save_file_contents.test)
 	if test_label != null:
@@ -53,7 +54,12 @@ func manage_input() -> void:
 func on_new_camera_position(node: Node):
 	if is_paused == true:
 		return
-	current_camera_position = node
-	var node_name = node.name
-	print_debug('Setting new camera position to %s.' % node_name)
+	if camera_position_dictionary.find_key(node) == null:
+		var dictionary_number: int = camera_position_dictionary.size()
+		var camera_position_number: int =  (dictionary_number - 2) + 1
+		camera_position_dictionary[camera_position_number] = node
+	camera_position_dictionary.current_camera_position = node
+	#print_debug(camera_position_dictionary)
+	#var node_name = node.name
+	#print_debug('Setting new camera position to #%s.' % node_name)
 	return

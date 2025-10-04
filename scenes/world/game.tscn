@@ -1,13 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://dvw2d48tks75t"]
+[gd_scene load_steps=22 format=3 uid="uid://dvw2d48tks75t"]
 
 [ext_resource type="Script" uid="uid://djssqcxycy8jv" path="res://resources/scripts/gameManager.gd" id="1_w44h4"]
 [ext_resource type="Script" uid="uid://6c3u6wwoukbn" path="res://resources/scripts/lastViewContainer.gd" id="2_2oj1e"]
 [ext_resource type="PackedScene" uid="uid://b2no5wr3yw66l" path="res://scenes/menu/pauseMenu.tscn" id="2_hqfqh"]
 [ext_resource type="Script" uid="uid://btasvp8bgsm3q" path="res://resources/scripts/devLabelClickable.gd" id="2_r5nxa"]
-[ext_resource type="Script" uid="uid://3tdmy7v2g046" path="res://resources/scripts/clickable.gd" id="3_3iwug"]
+[ext_resource type="Script" uid="uid://3nphbnvif42k" path="res://resources/scripts/interactable.gd" id="3_3iwug"]
 [ext_resource type="Script" uid="uid://d2nll53ff5h2c" path="res://resources/scripts/devLabelCameraPosition.gd" id="3_h30v7"]
 [ext_resource type="Script" uid="uid://cdcu0muiuxeqj" path="res://resources/scripts/mainCameraPosition.gd" id="5_3gx7t"]
 [ext_resource type="Script" uid="uid://rianvuhf8r2p" path="res://resources/scripts/playerCamera.gd" id="5_sarsd"]
+[ext_resource type="Material" uid="uid://dv0cipgm72358" path="res://resources/shaders/highlight_material.tres" id="9_ugwi3"]
 
 [sub_resource type="Theme" id="Theme_ugwi3"]
 
@@ -36,9 +37,17 @@ albedo_color = Color(0, 1, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2oj1e"]
 albedo_color = Color(0, 0, 1, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wmpba"]
+albedo_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_3iwug"]
+material = SubResource("StandardMaterial3D_wmpba")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hqfqh"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_wmpba"]
+lightmap_size_hint = Vector2i(14, 21)
+material = SubResource("StandardMaterial3D_wmpba")
 
 [node name="GameManager" type="Node3D"]
 script = ExtResource("1_w44h4")
@@ -156,59 +165,149 @@ transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -12.
 mesh = SubResource("PlaneMesh_2oj1e")
 surface_material_override/0 = SubResource("StandardMaterial3D_2oj1e")
 
-[node name="Box1" type="Node3D" parent="GameWorld"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, -8)
+[node name="Box1" type="Node3D" parent="GameWorld" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -8)
 script = ExtResource("3_3iwug")
-metadata/is_camera_position = true
+is_camera_position = true
+is_base_interactable = true
+game_manager = NodePath("../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1"]
 mesh = SubResource("BoxMesh_3iwug")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1"]
+transform = Transform3D(0.6736757, -0.25220993, 0.69465905, 0, 0.93996423, 0.34127292, -0.7390271, -0.22990727, 0.6332311, 1.119854, 0.9112158, 1.0633163)
 
 [node name="Area3D" type="Area3D" parent="GameWorld/Box1"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box1/Area3D"]
 shape = SubResource("BoxShape3D_hqfqh")
 
-[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1"]
-transform = Transform3D(0.6736757, -0.25220993, 0.69465905, 0, 0.93996423, 0.34127292, -0.7390271, -0.22990727, 0.6332311, 1.119854, 0.9112158, 1.0633163)
-
-[node name="Box2" type="Node3D" parent="GameWorld"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8)
+[node name="Box1" type="Node3D" parent="GameWorld/Box1" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, -0.255, 0.75, -0.255)
 script = ExtResource("3_3iwug")
-metadata/is_camera_position = true
+is_camera_position = true
+game_manager = NodePath("../../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1/Box1"]
+mesh = SubResource("BoxMesh_3iwug")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1/Box1"]
+transform = Transform3D(2.200596, -0.11186243, 0.2883337, 0, 2.0717697, 0.8037672, -0.30927265, -0.795945, 2.0516074, 0.19335747, 0.8148556, 1.3091259)
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box1/Box1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box1/Box1/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="Box1" type="Node3D" parent="GameWorld/Box1/Box1" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, -0.255, 0.75, -0.255)
+script = ExtResource("3_3iwug")
+is_camera_position = true
+game_manager = NodePath("../../../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1/Box1/Box1"]
+mesh = SubResource("BoxMesh_3iwug")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1/Box1/Box1"]
+transform = Transform3D(4.932585, -0.101829246, 0.21392785, 0, 4.4589033, 2.1224294, -0.23692684, -2.119985, 4.4537683, 0.23727226, 1.1185913, 2.0494957)
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box1/Box1/Box1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box1/Box1/Box1/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="Box2" type="Node3D" parent="GameWorld/Box1/Box1" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.255, 0.75, -0.255)
+script = ExtResource("3_3iwug")
+is_camera_position = true
+game_manager = NodePath("../../../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1/Box1/Box2"]
+mesh = SubResource("BoxMesh_3iwug")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1/Box1/Box2"]
+transform = Transform3D(4.655019, 0.59623027, -1.5368264, 0, 4.6039324, 1.7861506, 1.6484313, -1.6836995, 4.3398566, -0.89606094, 1.1185913, 2.0494957)
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box1/Box1/Box2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box1/Box1/Box2/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="Prism1" type="Node3D" parent="GameWorld/Box1" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.255, 0.75, -0.255)
+script = ExtResource("3_3iwug")
+is_camera_position = true
+game_manager = NodePath("../../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1/Prism1"]
+material_overlay = ExtResource("9_ugwi3")
+mesh = SubResource("PrismMesh_wmpba")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box1/Prism1"]
+transform = Transform3D(2.2090144, -0.069537364, 0.23171625, 0, 2.1284459, 0.6387405, -0.24192533, -0.634944, 2.1157954, 0.1536026, 0.7848525, 1.5189228)
+
+[node name="Area3D" type="Area3D" parent="GameWorld/Box1/Prism1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box1/Prism1/Area3D"]
+shape = SubResource("BoxShape3D_hqfqh")
+
+[node name="Box2" type="Node3D" parent="GameWorld" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8)
+script = ExtResource("3_3iwug")
+is_camera_position = true
+is_base_interactable = true
+game_manager = NodePath("../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box2"]
 mesh = SubResource("BoxMesh_3iwug")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box2"]
+transform = Transform3D(1, 2.6276862e-07, -3.1928184e-07, 0, 0.7721312, 0.6354632, 4.1350725e-07, -0.6354632, 0.7721312, 0.022736378, 2.0023866, 1.9580107)
 
 [node name="Area3D" type="Area3D" parent="GameWorld/Box2"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box2/Area3D"]
 shape = SubResource("BoxShape3D_hqfqh")
 
-[node name="CameraPosition" type="Node3D" parent="GameWorld/Box2"]
-transform = Transform3D(0.99999845, 0.0012667476, -0.0012252334, 0, 0.6952305, 0.7187868, 0.0017623414, -0.71878564, 0.6952294, -0.035943538, 1.2926083, 1.0294571)
-
-[node name="Box3" type="Node3D" parent="GameWorld"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -8)
+[node name="Box3" type="Node3D" parent="GameWorld" node_paths=PackedStringArray("game_manager")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1, -8)
 script = ExtResource("3_3iwug")
-metadata/is_camera_position = true
+is_camera_position = true
+is_base_interactable = true
+game_manager = NodePath("../..")
+metadata/_custom_type_script = "uid://3nphbnvif42k"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box3"]
 mesh = SubResource("BoxMesh_3iwug")
+
+[node name="CameraPosition" type="Node3D" parent="GameWorld/Box3"]
+transform = Transform3D(1, 2.6276862e-07, -3.1928184e-07, 0, 0.7721312, 0.6354632, 4.1350725e-07, -0.6354632, 0.7721312, 0.022736378, 2.0023866, 1.9580107)
 
 [node name="Area3D" type="Area3D" parent="GameWorld/Box3"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GameWorld/Box3/Area3D"]
 shape = SubResource("BoxShape3D_hqfqh")
 
-[node name="CameraPosition" type="Node3D" parent="GameWorld/Box3"]
-transform = Transform3D(0.667812, 0.5549183, -0.49607727, 0, 0.66647494, 0.7455273, 0.74432987, -0.4978721, 0.44508, -1.7609558, 3.0353909, 1.5129223)
-
 [connection signal="gui_input" from="LastViewContainer" to="LastViewContainer" method="_on_gui_input"]
 [connection signal="mouse_entered" from="LastViewContainer" to="LastViewContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="LastViewContainer" to="LastViewContainer" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="GameWorld/Box1/Area3D" to="GameWorld/Box1" method="_on_area_3d_mouse_entered"]
 [connection signal="mouse_exited" from="GameWorld/Box1/Area3D" to="GameWorld/Box1" method="_on_area_3d_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box1/Box1/Area3D" to="GameWorld/Box1/Box1" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box1/Box1/Area3D" to="GameWorld/Box1/Box1" method="_on_area_3d_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box1/Box1/Box1/Area3D" to="GameWorld/Box1/Box1/Box1" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box1/Box1/Box1/Area3D" to="GameWorld/Box1/Box1/Box1" method="_on_area_3d_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box1/Box1/Box2/Area3D" to="GameWorld/Box1/Box1/Box2" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box1/Box1/Box2/Area3D" to="GameWorld/Box1/Box1/Box2" method="_on_area_3d_mouse_exited"]
+[connection signal="mouse_entered" from="GameWorld/Box1/Prism1/Area3D" to="GameWorld/Box1/Prism1" method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="GameWorld/Box1/Prism1/Area3D" to="GameWorld/Box1/Prism1" method="_on_area_3d_mouse_exited"]
 [connection signal="mouse_entered" from="GameWorld/Box2/Area3D" to="GameWorld/Box2" method="_on_area_3d_mouse_entered"]
 [connection signal="mouse_exited" from="GameWorld/Box2/Area3D" to="GameWorld/Box2" method="_on_area_3d_mouse_exited"]
 [connection signal="mouse_entered" from="GameWorld/Box3/Area3D" to="GameWorld/Box3" method="_on_area_3d_mouse_entered"]

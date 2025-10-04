@@ -33,17 +33,41 @@ func find_control() -> void:
 	if game_manager == null:
 		find_game_manager()
 		return
-	if game_manager.current_camera_position != game_manager.main_camera_position:
+	if game_manager.camera_position_dictionary.current_camera_position != game_manager.camera_position_dictionary.main_camera_position:
 		control.visible = is_hovered
-	else: 
+	else:
 		control.visible = false
 	return
 
 func manage_input() -> void:
 	if is_hovered == true:
 		if Input.is_action_just_pressed("left_click"):
-			print_debug('Moving to last camera position.')
-			SignalManager.newCameraPosition.emit(game_manager.main_camera_position)
+			#print_debug('Moving to last camera position.')
+			var dictionary_number: int = game_manager.camera_position_dictionary.size()
+			var camera_position_number: int =  dictionary_number - 3
+			if camera_position_number >= 1:
+				var new_camera_position: Node = null
+				if game_manager.camera_position_dictionary.current_camera_position != null:
+					var current_camera_position: Node = game_manager.camera_position_dictionary.current_camera_position
+					var interactable: Node = current_camera_position.get_parent()
+					interactable.is_clickable = true
+					new_camera_position = game_manager.camera_position_dictionary.get(camera_position_number)
+					#print_debug('Found previous camera position. Setting new position to camera position #%s.' % camera_position_number)
+					SignalManager.newCameraPosition.emit(new_camera_position)
+					remove_camera_position_from_dictionary()
+					is_hovered = false
+					return
+			remove_camera_position_from_dictionary()
 			is_hovered = false
+			SignalManager.newCameraPosition.emit(game_manager.camera_position_dictionary.main_camera_position)
 			return
+	return
+
+func remove_camera_position_from_dictionary():
+	var dictionary_number: int = game_manager.camera_position_dictionary.size()
+	var camera_position_number: int =  dictionary_number - 2
+	#print_debug('Attempting to remove camera position #%s from dictionary.' % camera_position_number)
+	game_manager.camera_position_dictionary.erase(camera_position_number)
+	if game_manager.camera_position_dictionary.get(camera_position_number) != null:
+		push_error('Could not remove camera position #%s from dictionary.' % camera_position_number)
 	return
