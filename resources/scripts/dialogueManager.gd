@@ -31,8 +31,9 @@ func start_dialogue(position: Vector2, lines: Array[String], node: Interactable)
 	dialogue_lines = lines
 	text_box_position = position
 	show_text_box()
-	current_node = node
-	current_node.has_been_clicked = true
+	if node != null:
+		current_node = node
+		current_node.has_been_clicked = true
 	is_dialogue_active = true
 	return
 
@@ -59,8 +60,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			timer.start(time_between_dialogue_presses)
 			await timer.timeout
 			is_startable = true
-			current_node.has_been_clicked = false
-			current_node = null
+			if current_node != null:
+				current_node.has_been_clicked = false
+				current_node = null
 			return
 		show_text_box()
 	return
