@@ -13,13 +13,13 @@ var highlight_shader_material: ShaderMaterial = load('res://resources/shaders/hi
 
 
 func _on_area_3d_mouse_entered() -> void:
-	self.is_hovered = true 
+	self.is_hovered = true
 	SignalManager.hoveringClickable.emit(self)
 	#print_debug('Setting is_hovered for ' + self.name + ' to ' + str(is_hovered) + '.')
 	return
 
 func _on_area_3d_mouse_exited() -> void:
-	self.is_hovered = false 
+	self.is_hovered = false
 	SignalManager.hoveringClickable.emit(self)
 	#print_debug('Setting is_hovered for ' + self.name + ' to ' + str(is_hovered) + '.')
 	return
@@ -27,6 +27,9 @@ func _on_area_3d_mouse_exited() -> void:
 func _process(_delta: float) -> void:
 	if self.game_manager == null:
 		push_error('%s has not had the game manager assigned.' % self.name)
+
+	if self.game_manager.is_paused == true:
+		return
 
 	if self.interactable_children == []:
 		find_interactable_children()
@@ -47,11 +50,8 @@ func _process(_delta: float) -> void:
 				if current_camera_position != main_camera_position:
 					self.is_clickable = false
 
-		
-
-	if self.mesh_instance_3d == null: 
+	if self.mesh_instance_3d == null:
 		find_mesh_instance_3d()
-	
 
 	if self.is_hovered == true:
 		manage_input()
@@ -59,8 +59,8 @@ func _process(_delta: float) -> void:
 			#print_debug('Setting material override for mesh %s.' % mesh_instance_3d)
 
 			self.mesh_instance_3d.material_overlay = highlight_shader_material
-	
-	if self.is_hovered == false:
+
+	if self.is_hovered == false or self.is_clickable == false:
 		self.mesh_instance_3d.material_overlay = null
 
 	if self.is_camera_position == true:

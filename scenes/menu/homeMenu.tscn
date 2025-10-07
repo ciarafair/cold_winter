@@ -1,98 +1,132 @@
-[gd_scene load_steps=4 format=3 uid="uid://cetdcyqw2op0i"]
+[gd_scene load_steps=8 format=3 uid="uid://cetdcyqw2op0i"]
 
 [ext_resource type="Script" uid="uid://bppgngiop6asm" path="res://resources/scripts/homeMenu.gd" id="1_omu1j"]
+[ext_resource type="VideoStream" uid="uid://ck8e8845m50yr" path="res://resources/blender/renders/render1.ogv" id="2_lafae"]
+[ext_resource type="AudioStream" uid="uid://cdempn4m0koko" path="res://resources/audio/Elijah_Wagner_-_Heavy_Snowstorm_and_Howling_Wind_Sounds_Pt._1_(mp3.pm).mp3" id="2_v0a6c"]
+[ext_resource type="FontFile" uid="uid://dxk1lrr1wtrxs" path="res://resources/fonts/ptserif/PTSerif-Italic.ttf" id="4_f8gri"]
+[ext_resource type="Script" uid="uid://d2fmstvqgxxux" path="res://resources/scripts/buttonPanelContainer.gd" id="5_3hnf1"]
 
 [sub_resource type="Theme" id="Theme_omu1j"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lafae"]
-bg_color = Color(0.15487596, 0.154876, 0.15487587, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
+[sub_resource type="LabelSettings" id="LabelSettings_3hnf1"]
+font = ExtResource("4_f8gri")
+font_size = 60
 
-[node name="HomeMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="HomeMenu" type="Node"]
 script = ExtResource("1_omu1j")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.28118682, 0.28118688, 0.28118682, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control"]
+stream = ExtResource("2_v0a6c")
+volume_db = -15.0
+autoplay = true
+parameters/looping = true
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_lafae")
+autoplay = true
+loop = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="MarginContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 theme = SubResource("Theme_omu1j")
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
 
-[node name="Panel" type="Panel" parent="VBoxContainer/PanelContainer"]
+[node name="Label" type="Label" parent="Control/VBoxContainer/PanelContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_lafae")
-
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 6
 size_flags_stretch_ratio = 0.25
-text = "Home Menu"
+text = "Cold Winter"
+label_settings = SubResource("LabelSettings_3hnf1")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 50
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 6
 alignment = 1
 
-[node name="CenterContainer3" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+[node name="PanelContainer2" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.25
+script = ExtResource("5_3hnf1")
 
-[node name="SelectSaveButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer3"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2"]
 layout_mode = 2
-text = "Select Save"
 
-[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+[node name="SelectSaveButton" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Select Save"
+flat = true
+
+[node name="PanelContainer3" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
+script = ExtResource("5_3hnf1")
 
-[node name="SettingsButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer2"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3"]
 layout_mode = 2
+
+[node name="SettingsButton" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
 text = "Settings"
+flat = true
 
-[node name="CenterContainer4" type="CenterContainer" parent="VBoxContainer/VBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
-size_flags_vertical = 0
-size_flags_stretch_ratio = 0.25
+script = ExtResource("5_3hnf1")
 
-[node name="QuitGameButton" type="Button" parent="VBoxContainer/VBoxContainer2/CenterContainer4"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer"]
 layout_mode = 2
+
+[node name="QuitGameButton" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
 text = "Quit Game"
+flat = true
 
-[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer3/SelectSaveButton" to="." method="_on_select_save_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer2/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/VBoxContainer2/CenterContainer4/QuitGameButton" to="." method="_on_quit_game_button_pressed"]
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2" method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2" method="_on_panel_mouse_exited"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2/SelectSaveButton" to="." method="_on_select_save_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3" method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3" method="_on_panel_mouse_exited"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer" method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer" method="_on_panel_mouse_exited"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer/QuitGameButton" to="." method="_on_quit_game_button_pressed"]

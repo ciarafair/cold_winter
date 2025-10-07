@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dvw2d48tks75t"]
+[gd_scene load_steps=21 format=3 uid="uid://dvw2d48tks75t"]
 
 [ext_resource type="Script" uid="uid://djssqcxycy8jv" path="res://resources/scripts/gameManager.gd" id="1_w44h4"]
 [ext_resource type="Script" uid="uid://6c3u6wwoukbn" path="res://resources/scripts/lastViewContainer.gd" id="2_2oj1e"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://d2nll53ff5h2c" path="res://resources/scripts/devLabelCameraPosition.gd" id="3_h30v7"]
 [ext_resource type="Script" uid="uid://cdcu0muiuxeqj" path="res://resources/scripts/mainCameraPosition.gd" id="5_3gx7t"]
 [ext_resource type="Script" uid="uid://rianvuhf8r2p" path="res://resources/scripts/playerCamera.gd" id="5_sarsd"]
-[ext_resource type="Material" uid="uid://dv0cipgm72358" path="res://resources/shaders/highlight_material.tres" id="9_ugwi3"]
 
 [sub_resource type="Theme" id="Theme_ugwi3"]
 
@@ -246,7 +245,6 @@ game_manager = NodePath("../../..")
 metadata/_custom_type_script = "uid://3nphbnvif42k"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GameWorld/Box1/Prism1"]
-material_overlay = ExtResource("9_ugwi3")
 mesh = SubResource("PrismMesh_wmpba")
 
 [node name="CameraPosition" type="Node3D" parent="GameWorld/Box1/Prism1"]
