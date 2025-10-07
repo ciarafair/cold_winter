@@ -1,16 +1,20 @@
 class_name Interactable extends Node3D
 
 @export var is_camera_position: bool = false
+@export var is_dialogue_box: bool = false
 @export var is_base_interactable: bool = false
+@export var dialogue_text: Array[String] = []
+
 var is_clickable: bool = false
 var is_hovered: bool = false
+var is_focused: bool = false
+var is_textbox_open: bool = false
 
 var camera_position: Node = null
 @export var game_manager: Node = null
 var interactable_children: Array[Node] = []
 var mesh_instance_3d: MeshInstance3D = null
 var highlight_shader_material: ShaderMaterial = load('res://resources/shaders/highlight_material.tres')
-
 
 func _on_area_3d_mouse_entered() -> void:
 	self.is_hovered = true
@@ -33,6 +37,11 @@ func _process(_delta: float) -> void:
 
 	if self.interactable_children == []:
 		find_interactable_children()
+
+	if game_manager.focused_interactable == self:
+		self.is_focused = true
+	if game_manager.focused_interactable == self:
+		self.is_focused = false
 
 	if self.is_base_interactable == true:
 		var current_camera_position: Node = null
@@ -74,16 +83,22 @@ func manage_input() -> void:
 			return
 		SaveManager.save_file_contents.test += 1
 		#print_debug('Clicking on %s.' % self.name)
-		if is_camera_position == true:
-			if self.camera_position == null:
-				push_error('Could not set new camera position as %s could not find it.' % self.name)
+		if is_focused != true:
+			if is_camera_position == true:
+				if self.camera_position == null:
+					push_error('Could not set new camera position as %s could not find it.' % self.name)
+					return
+				SignalManager.newCameraPosition.emit(self.camera_position)
+				if is_dialogue_box == true:
+					DialogueManager.start_dialogue(DialogueManager.default_position, self.dialogue_text)
+					return
 				return
-			if self.camera_position == null:
-				push_error('Could not find Area3D for %s.' % self.name)
+		if is_dialogue_box == true:
+			if self.dialogue_text == []:
+				push_error('Dialogue interactable %s does not have any dialogue written.' % self.name)
 				return
-			self.is_clickable = false
-			SignalManager.newCameraPosition.emit(self.camera_position)
-		return
+			DialogueManager.start_dialogue(DialogueManager.default_position, self.dialogue_text)
+			return
 	return
 
 func find_camera_position() -> void:

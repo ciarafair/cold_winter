@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dvw2d48tks75t"]
+[gd_scene load_steps=22 format=3 uid="uid://dvw2d48tks75t"]
 
 [ext_resource type="Script" uid="uid://djssqcxycy8jv" path="res://resources/scripts/gameManager.gd" id="1_w44h4"]
 [ext_resource type="Script" uid="uid://6c3u6wwoukbn" path="res://resources/scripts/lastViewContainer.gd" id="2_2oj1e"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://d2nll53ff5h2c" path="res://resources/scripts/devLabelCameraPosition.gd" id="3_h30v7"]
 [ext_resource type="Script" uid="uid://cdcu0muiuxeqj" path="res://resources/scripts/mainCameraPosition.gd" id="5_3gx7t"]
 [ext_resource type="Script" uid="uid://rianvuhf8r2p" path="res://resources/scripts/playerCamera.gd" id="5_sarsd"]
+[ext_resource type="Script" uid="uid://djxl00pukw86k" path="res://resources/scripts/devLabelFocusedInteractable.gd" id="5_ugwi3"]
 
 [sub_resource type="Theme" id="Theme_ugwi3"]
 
@@ -52,11 +53,11 @@ material = SubResource("StandardMaterial3D_wmpba")
 script = ExtResource("1_w44h4")
 
 [node name="LastViewContainer" type="Container" parent="."]
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = -1
+anchor_top = 0.92600006
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -80.0
+offset_top = -0.080078125
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 3
@@ -128,6 +129,11 @@ layout_mode = 2
 text = "Null"
 script = ExtResource("3_h30v7")
 
+[node name="FocusedInteractableDevLabel" type="Label" parent="DevLabels/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Null"
+script = ExtResource("5_ugwi3")
+
 [node name="PauseMenu" parent="." instance=ExtResource("2_hqfqh")]
 visible = false
 top_level = true
@@ -139,6 +145,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("5_3gx7t")
 
 [node name="Camera3D" type="Camera3D" parent="GameWorld"]
+current = true
 script = ExtResource("5_sarsd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="GameWorld"]
@@ -223,6 +230,8 @@ shape = SubResource("BoxShape3D_hqfqh")
 transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.255, 0.75, -0.255)
 script = ExtResource("3_3iwug")
 is_camera_position = true
+is_dialogue_box = true
+dialogue_text = Array[String](["This is a cube.", "Wait...", "Its a camera position and a dialogue box!"])
 game_manager = NodePath("../../../..")
 metadata/_custom_type_script = "uid://3nphbnvif42k"
 
@@ -240,7 +249,8 @@ shape = SubResource("BoxShape3D_hqfqh")
 [node name="Prism1" type="Node3D" parent="GameWorld/Box1" node_paths=PackedStringArray("game_manager")]
 transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.255, 0.75, -0.255)
 script = ExtResource("3_3iwug")
-is_camera_position = true
+is_dialogue_box = true
+dialogue_text = Array[String](["It is a prism.", "Wait...", "It's actually an interactable!"])
 game_manager = NodePath("../../..")
 metadata/_custom_type_script = "uid://3nphbnvif42k"
 

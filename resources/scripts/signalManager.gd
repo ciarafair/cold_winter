@@ -13,6 +13,8 @@ signal homeMenuSignal()
 signal pauseMenuSignal()
 signal hoveringClickable()
 signal newCameraPosition()
+signal textBoxFinish()
+signal addTextBox(value: Node)
 
 func _ready() -> void:
 	SignalManager.onlineSignal.connect(notify_online)

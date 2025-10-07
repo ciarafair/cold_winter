@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cetdcyqw2op0i"]
+[gd_scene load_steps=9 format=3 uid="uid://cetdcyqw2op0i"]
 
 [ext_resource type="Script" uid="uid://bppgngiop6asm" path="res://resources/scripts/homeMenu.gd" id="1_omu1j"]
 [ext_resource type="VideoStream" uid="uid://ck8e8845m50yr" path="res://resources/blender/renders/render1.ogv" id="2_lafae"]
 [ext_resource type="AudioStream" uid="uid://cdempn4m0koko" path="res://resources/audio/Elijah_Wagner_-_Heavy_Snowstorm_and_Howling_Wind_Sounds_Pt._1_(mp3.pm).mp3" id="2_v0a6c"]
 [ext_resource type="FontFile" uid="uid://dxk1lrr1wtrxs" path="res://resources/fonts/ptserif/PTSerif-Italic.ttf" id="4_f8gri"]
 [ext_resource type="Script" uid="uid://d2fmstvqgxxux" path="res://resources/scripts/buttonPanelContainer.gd" id="5_3hnf1"]
+[ext_resource type="StyleBox" uid="uid://dy1u724ban1pd" path="res://resources/styles/main_menu_button_default.tres" id="6_30evu"]
 
 [sub_resource type="Theme" id="Theme_omu1j"]
 
@@ -75,43 +76,46 @@ size_flags_horizontal = 0
 size_flags_vertical = 6
 alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
+[node name="SelectSaveContainer" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.25
 script = ExtResource("5_3hnf1")
 
-[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer"]
 layout_mode = 2
+theme_override_styles/panel = ExtResource("6_30evu")
 
-[node name="SelectSaveButton" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2"]
+[node name="Button" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 35
 text = "Select Save"
 flat = true
 
-[node name="PanelContainer3" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
+[node name="SettingsContainer" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 script = ExtResource("5_3hnf1")
 
-[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer"]
 layout_mode = 2
+theme_override_styles/panel = ExtResource("6_30evu")
 
-[node name="SettingsButton" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3"]
+[node name="Button" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 35
 text = "Settings"
 flat = true
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
+[node name="QuitGameContainer" type="PanelContainer" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 script = ExtResource("5_3hnf1")
 
-[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer"]
+[node name="Panel" type="Panel" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer"]
 layout_mode = 2
+theme_override_styles/panel = ExtResource("6_30evu")
 
-[node name="QuitGameButton" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer"]
+[node name="Button" type="Button" parent="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 35
 text = "Quit Game"
@@ -121,12 +125,14 @@ flat = true
 
 [node name="Camera3D" type="Camera3D" parent="Node3D"]
 
-[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2" method="_on_panel_mouse_entered"]
-[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2" method="_on_panel_mouse_exited"]
-[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer2/SelectSaveButton" to="." method="_on_select_save_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3" method="_on_panel_mouse_entered"]
-[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3" method="_on_panel_mouse_exited"]
-[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer3/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer" method="_on_panel_mouse_entered"]
-[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer/Panel" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer" method="_on_panel_mouse_exited"]
-[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/PanelContainer/QuitGameButton" to="." method="_on_quit_game_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer/Button" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer/Button" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/SelectSaveContainer/Button" to="." method="_on_select_save_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer/Button" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer/Button" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/SettingsContainer/Button" to="." method="_on_settings_button_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer/Button" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer/Button" to="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Control/VBoxContainer/MarginContainer/VBoxContainer2/QuitGameContainer/Button" to="." method="_on_quit_game_button_pressed"]
