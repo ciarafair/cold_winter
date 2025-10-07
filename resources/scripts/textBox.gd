@@ -17,6 +17,10 @@ var punctuation_time: float = 0.2
 func _process(_delta: float) -> void:
 	if label != null:
 		label.visible_characters = letter_index - 1
+	if DialogueManager.is_paused == true:
+		self.visible = false
+	if DialogueManager.is_paused == false:
+		self.visible = true
 	return
 
 func display_text(value: String) -> void:
@@ -27,7 +31,9 @@ func display_text(value: String) -> void:
 	return
 
 func display_letter() -> void:
-	letter_index += 1 
+	if DialogueManager.is_paused == true:
+		await SignalManager.unpause
+	letter_index += 1
 
 	if letter_index >= text.length():
 		SignalManager.textBoxFinish.emit()

@@ -8,7 +8,7 @@ class_name Interactable extends Node3D
 var is_clickable: bool = false
 var is_hovered: bool = false
 var is_focused: bool = false
-var is_textbox_open: bool = false
+var has_been_clicked: bool = false
 
 var camera_position: Node = null
 @export var game_manager: Node = null
@@ -66,10 +66,9 @@ func _process(_delta: float) -> void:
 		manage_input()
 		if self.is_clickable == true:
 			#print_debug('Setting material override for mesh %s.' % mesh_instance_3d)
-
 			self.mesh_instance_3d.material_overlay = highlight_shader_material
 
-	if self.is_hovered == false or self.is_clickable == false:
+	if self.is_hovered == false or self.is_clickable == false or DialogueManager.is_dialogue_active == true:
 		self.mesh_instance_3d.material_overlay = null
 
 	if self.is_camera_position == true:
@@ -81,23 +80,29 @@ func manage_input() -> void:
 	if Input.is_action_just_pressed("left_click"):
 		if self.is_clickable == false:
 			return
+		if DialogueManager.is_dialogue_active == true:
+			return
+		if self.has_been_clicked == true:
+			return
 		SaveManager.save_file_contents.test += 1
 		#print_debug('Clicking on %s.' % self.name)
-		if is_focused != true:
-			if is_camera_position == true:
+		if self.is_focused != true:
+			if self.is_camera_position == true:
 				if self.camera_position == null:
 					push_error('Could not set new camera position as %s could not find it.' % self.name)
 					return
 				SignalManager.newCameraPosition.emit(self.camera_position)
-				if is_dialogue_box == true:
-					DialogueManager.start_dialogue(DialogueManager.default_position, self.dialogue_text)
+				if self.is_dialogue_box == true:
+					DialogueManager.start_dialogue(DialogueManager.default_position, self.dialogue_text, self)
 					return
 				return
-		if is_dialogue_box == true:
+
+		if self.is_dialogue_box == true:
+			self.is_clickable = false
 			if self.dialogue_text == []:
 				push_error('Dialogue interactable %s does not have any dialogue written.' % self.name)
 				return
-			DialogueManager.start_dialogue(DialogueManager.default_position, self.dialogue_text)
+			DialogueManager.start_dialogue(DialogueManager.default_position, self.dialogue_text, self)
 			return
 	return
 

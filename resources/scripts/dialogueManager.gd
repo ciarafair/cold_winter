@@ -6,24 +6,33 @@ var dialogue_lines: Array[String] = []
 var current_line_index: int = 0
 
 var text_box: Node = null
+var timer: Timer = null
 var text_box_position: Vector2 = Vector2(0,0)
 
 var is_dialogue_active: bool = false
+var is_paused: bool = false
 var can_advance_line: bool = false
+var is_startable: bool = true
+var current_node: Interactable = null
 
+const time_between_dialogue_presses: float = 0.9
 const default_position: Vector2 = Vector2(960, 100)
 
 func _ready() -> void:
+	create_timer()
 	SignalManager.textBoxFinish.connect(on_text_box_finish)
 	return
 
-func start_dialogue(position: Vector2, lines: Array[String]) -> void:
+func start_dialogue(position: Vector2, lines: Array[String], node: Interactable) -> void:
+	if is_startable == false:
+		return
 	if is_dialogue_active == true:
 		return
 	dialogue_lines = lines
 	text_box_position = position
 	show_text_box()
-
+	current_node = node
+	current_node.has_been_clicked = true
 	is_dialogue_active = true
 	return
 
@@ -46,6 +55,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		if current_line_index >= dialogue_lines.size():
 			is_dialogue_active = false
 			current_line_index = 0
+			is_startable = false
+			timer.start(time_between_dialogue_presses)
+			await timer.timeout
+			is_startable = true
+			current_node.has_been_clicked = false
+			current_node = null
 			return
 		show_text_box()
+	return
+
+func create_timer():
+	timer = Timer.new()
+	self.add_child(timer)
 	return
